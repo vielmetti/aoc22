@@ -24,15 +24,29 @@ BEGIN { dirlist[1] = "/" }
 END {
    for (dir in dirlist) { 
 	   for (d in filesize) { 
-                   print "dir", dirlist[dir], "d", d
+#                   print "dir", dirlist[dir], "d", d
 		   if (index(d, dirlist[dir]) == 1) {
                       dirsize[dir] += filesize[d]
                    }
            }
    }
+
+   unused = 70000000 - dirsize[1] # root
+   freeneed = 30000000
+   minneed = freeneed - unused
+   anstwo = freeneed
+
    for (dir in dirsize) {
-       if (dirsize[dir] <= 100000)
+
+       if (dirsize[dir] <= 100000) {
            answer += dirsize[dir]
+       }
+       if ( (dirsize[dir] >= minneed ) && (dirsize[dir] < anstwo ) ) {
+           anstwo = dirsize[dir]
+       }
    }
-   print answer
+   print "day 7 part 1", answer
+   print "day 7 part 2", anstwo
+
 }
+
